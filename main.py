@@ -1,3 +1,4 @@
+# Azhar Mithani
 from src.object_detector.yolov3 import PeopleDetector
 import cv2
 import itertools
@@ -5,7 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 import os
-# Process inputs
+# Imported Libraries 
+
 parser = argparse.ArgumentParser(
     description='Run social distancing meter')
 parser.add_argument('--image', help='Path to image file.')
@@ -18,6 +20,8 @@ net.load_network()
 winName = 'predicted people'
 cv2.namedWindow(winName, cv2.WINDOW_NORMAL)
 
+# Running processes
+
 outputFile = "yolo_out_py.avi"
 if (args.image):
     # Open the image file
@@ -27,27 +31,27 @@ if (args.image):
     cap = cv2.VideoCapture(args.image)
     outputFile = args.image[:-4]+'_yolo_out_py.jpg'
 elif (args.video):
-    # Open the video file
+    # Opening the video file
     if not os.path.isfile(args.video):
         print("Input video file ", args.video, " doesn't exist")
         sys.exit(1)
     cap = cv2.VideoCapture(args.video)
     outputFile = args.video[:-4]+'_yolo_out_py.avi'
 else:
-    # Webcam input
+    # Opening webcam input
     cap = cv2.VideoCapture(0)
 
-# Get the video writer initialized to save the output video
+# Initializing the video writer to save the output video
 if (not args.image):
     vid_writer = cv2.VideoWriter(outputFile, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 30, (round(
         cap.get(cv2.CAP_PROP_FRAME_WIDTH)), round(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
 
 while cv2.waitKey(1) < 0:
 
-    # get frame from the video
+    # Getting the frame from the video
     hasFrame, frame = cap.read()
 
-    # Stop the program if reached end of video
+    # Terminatig the program once end of video is reached 
     if not hasFrame:
         print("Done processing !!!")
         print("Output file is stored as ", outputFile)
@@ -63,7 +67,7 @@ while cv2.waitKey(1) < 0:
     label = 'Inference time: %.2f ms' % (t * 1000.0 / cv2.getTickFrequency())
     cv2.putText(frame, label, (0, 15),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
-    # Write the frame with the detection boxes
+    # The frame writing function with the detection boxes
     if (args.image):
         cv2.imwrite(outputFile, frame.astype(np.uint8))
     else:
