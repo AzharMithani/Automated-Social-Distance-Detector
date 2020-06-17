@@ -1,10 +1,11 @@
+# Azhar Mithani
 import os
 import time
 import itertools
 import cv2
 import numpy as np
 
-
+# A class defining all the functions used in the detection of People aka PeopleDetector function
 class PeopleDetector:
     def __init__(self, yolocfg='yolo_weights/yolov3.cfg',
                  yoloweights='yolo_weights/yolov3.weights',
@@ -27,6 +28,8 @@ class PeopleDetector:
         self._layerouts = []
         self._MIN_DIST = 150
         self._mindistances = {}
+        
+# Loading the yolov3 network backend
 
     def load_network(self):
         self._net = cv2.dnn.readNetFromDarknet(
@@ -37,6 +40,7 @@ class PeopleDetector:
                              for i in self._net.getUnconnectedOutLayers()]
         print("yolov3 loaded successfully\n")
 
+# Function calculating time for prediction
     def predict(self, image):
         blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416),
                                      [0, 0, 0], 1, crop=False)
@@ -46,6 +50,8 @@ class PeopleDetector:
         end = time.time()
         print("yolo took {:.6f} seconds".format(end - start))
         return(self._layerouts)
+    
+# Function performing prediction
 
     def process_preds(self, image, outs):
         (frameHeight, frameWidth) = image.shape[:2]
@@ -79,6 +85,8 @@ class PeopleDetector:
             self.draw_pred(image, self._classIDs[i], self._confidences[i], left,
                            top, left + width, top + height)
         return self._centers
+    
+# Function initializing variables
 
     def clear_preds(self):
         self._boxes = []
@@ -88,6 +96,8 @@ class PeopleDetector:
         self._layerouts = []
         self._mindistances = {}
 
+# Function drawing prediction based on frames
+        
     def draw_pred(self, frame, classId, conf, left, top, right, bottom):
         cv2.rectangle(frame, (left, top), (right, bottom), (255, 178, 50), 3)
         label = '%.2f' % conf
@@ -103,6 +113,8 @@ class PeopleDetector:
         self.find_min_distance(self._centers)
         for k in self._mindistances:
             cv2.line(frame, k[0], k[1], (0, 0, 255), 7)
+            
+# Function returning minimum euclidean distance between predicted anchor boxes
 
     def find_min_distance(self, centers):
         '''
