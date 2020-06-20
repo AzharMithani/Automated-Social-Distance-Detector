@@ -20,33 +20,6 @@ this repo acts as open source python implementation
 
 ![system arch](system_arch.png)
 
-## How to use the repo
-
-### 1.clone the repo
-
-### 2. Install dependencies (reccommended in virtual environment)
-
-``` 
-virtualenv -p python3 venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-###  3.download YOLOV3 pretrained weights and architecture 
-
-``` 
-mkdir yolo_weights
-cd yolo_weights
-wget https://pjreddie.com/media/files/yolov3.weights
-wget https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3.cfg
-wget https://raw.githubusercontent.com/pjreddie/darknet/master/data/coco.names
-```
-
-### 4.run the code
-
-``` 
-python main.py --video 'video path'
-```
 
 ## check sample result of the implementation
 
