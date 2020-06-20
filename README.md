@@ -21,7 +21,7 @@ this repo acts as open source python implementation
 ![system arch](system_arch.png)
 
 
-## check sample result of the implementation
+## Check sample result of the implementation
 
 ![my results](mydemo.gif)
 
